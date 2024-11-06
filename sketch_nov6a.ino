@@ -1,16 +1,10 @@
-// Pins for ultrasonic sensor
 const int trigPin = 9;
 const int echoPin = 8;
-
-// Pins for LEDs
 const int greenLED = 2;
 const int yellowLED = 3;
 const int redLED = 4;
-
-// Potentiometer pin
 const int potPin = A0;
 
-// Initial distance thresholds
 int greenThreshold = 20;
 int yellowThreshold = 10;
 
@@ -20,7 +14,7 @@ void setup() {
     pinMode(greenLED, OUTPUT);
     pinMode(yellowLED, OUTPUT);
     pinMode(redLED, OUTPUT);
-    Serial.begin(9600); // Initialize Serial Monitor
+    Serial.begin(9600); 
 }
 
 long measureDistance() {
@@ -29,14 +23,13 @@ long measureDistance() {
     digitalWrite(trigPin, HIGH);
     delayMicroseconds(10);
     digitalWrite(trigPin, LOW);
-
     long duration = pulseIn(echoPin, HIGH);
     long distance = duration * 0.034 / 2;
     return distance;
 }
 
 void updateThresholds() {
-    int potValue = analogRead(potPin);  // Read potentiometer value (0 to 1023)
+    int potValue = analogRead(potPin); 
     
     greenThreshold = map(potValue, 0, 1023, 10, 30);
     yellowThreshold = greenThreshold / 2;
@@ -65,15 +58,11 @@ void loop() {
     long distance = measureDistance();
     updateThresholds();
     controlLEDs(distance);
-
-    // Print values to Serial Monitor for debugging
-   
-    Serial.print("Distance: ");
+   Serial.print("Distance: ");
     Serial.print(distance);
     Serial.print(" cm, Green Threshold: ");
     Serial.print(greenThreshold);
     Serial.print(" cm, Yellow Threshold: ");
     Serial.println(yellowThreshold);
-    
-    delay(100);  // Small delay to prevent excessive Serial Monitor output
+    delay(100); 
 }
